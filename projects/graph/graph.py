@@ -2,12 +2,18 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+from pprint import PrettyPrinter
+
+pp = PrettyPrinter().pformat
 
 class Graph:
 
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+
+    def __repr__(self):
+        return pp(self.vertices)
 
     def add_vertex(self, vertex_id):
         """
@@ -20,9 +26,9 @@ class Graph:
         Add a directed edge to the graph.
         """
         if v1 in self.vertices and v2 in self.vertices:
-            self.vertices[v1].add[v2]
+            self.vertices[v1].add(v2)
         else:
-            raise IndexError('nonexistant vertex')
+            raise IndexError('nonexistent vertex')
 
     def get_neighbors(self, vertex_id):
         """
@@ -62,13 +68,26 @@ class Graph:
                 for next_vertex in self.get_neighbors(vertex):
                     stack.push(next_vertex)
 
-    def dft_recursive(self, starting_vertex, func=print):
+    def dft_recursive(self, vertex, visited=None):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
 
         This should be done using recursion.
         """
+        try:
+            already_seen = vertex in visited
+        except:
+            already_seen = False
+            visited = set()
+        if not already_seen:
+            visited.add(vertex)
+            print(vertex)
+            for neighbor in self.get_neighbors(vertex):
+                self.dft_recursive(
+                    neighbor,
+                    visited=visited)
+
 
     def bfs(self, starting_vertex, destination_vertex):
         """
@@ -103,13 +122,13 @@ class Graph:
             path = stack.pop()
             vertex = path[-1]
             if vertex not in visited:
-                if vertex = destination_vertex:
+                if vertex == destination_vertex:
                     return path
                 for next_vert in self.get_neighbors(vertex):
                     new_path = path + [next_vert]
                     stack.push(new_path)
 
-    def dfs_recursive(self, starting_vertex):
+    def dfs_recursive(self, vertex, destination_vertex, visited=None):
         """
         Return a list containing a path from
         starting_vertex to destination_vertex in
@@ -117,21 +136,37 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        try:
+            already_seen = vertex in visited
+        except:
+            already_seen = False
+            visited = set()
+        if not already_seen:
+            visited.add(vertex)
+            if vertex == destination_vertex:
+                return [vertex]
+            for neighbor in self.get_neighbors(vertex):
+                response = self.dfs_recursive(
+                    neighbor, destination_vertex, visited=visited)
+                if response is not None:
+                    return [vertex] + response
 
 if __name__ == '__main__':
     graph = Graph()  # Instantiate your graph
     # https://github.com/LambdaSchool/Graphs/blob/master/objectives/breadth-first-search/img/bfs-visit-order.png
     graph.add_vertex(1)
+    print(graph)
     graph.add_vertex(2)
     graph.add_vertex(3)
     graph.add_vertex(4)
     graph.add_vertex(5)
     graph.add_vertex(6)
     graph.add_vertex(7)
+    print(graph)
     graph.add_edge(5, 3)
     graph.add_edge(6, 3)
     graph.add_edge(7, 1)
+    print(graph)
     graph.add_edge(4, 7)
     graph.add_edge(1, 2)
     graph.add_edge(7, 6)
@@ -139,6 +174,7 @@ if __name__ == '__main__':
     graph.add_edge(3, 5)
     graph.add_edge(2, 3)
     graph.add_edge(4, 6)
+    print(graph)
 
     '''
     Should print:
