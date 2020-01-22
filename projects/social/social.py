@@ -1,3 +1,132 @@
+import random
+personal_names = '''
+James
+John
+Robert
+Michael
+William
+David
+Richard
+Joseph
+Thomas
+Charles
+Christopher
+Daniel
+Matthew
+Anthony
+Donald
+Mark
+Paul
+Steven
+Andrew
+Kenneth
+Joshua
+George
+Kevin
+Brian
+Edward
+Ronald
+Timothy
+Jason
+Jeffrey
+Ryan
+Jacob
+Gary
+Nicholas
+Eric
+Stephen
+Jonathan
+Larry
+Justin
+Scott
+Brandon
+Frank
+Benjamin
+Gregory
+Samuel
+Raymond
+Patrick
+Alexander
+Jack
+Dennis
+Jerry
+Mary
+Patricia
+Jennifer
+Linda
+Elizabeth
+Barbara
+Susan
+Jessica
+Sarah
+Karen
+Nancy
+Margaret
+Lisa
+Betty
+Dorothy
+Sandra
+Ashley
+Kimberly
+Donna
+Emily
+Michelle
+Carol
+Amanda
+Melissa
+Deborah
+Stephanie
+Rebecca
+Laura
+Sharon
+Cynthia
+Kathleen
+Helen
+Amy
+Shirley
+Angela
+Anna
+Brenda
+Pamela
+Nicole
+Ruth
+Katherine
+Samantha
+Christine
+Emma
+Catherine
+Debra
+Virginia
+Rachel
+Carolyn
+Janet
+'''.strip().split('\n')
+
+surnames = '''
+Sallow
+Fernsby
+Villin
+Miracle
+Dankworth
+Relish
+MacQuoid
+Loughty
+Birdwhistle
+Berrycloth
+Culpepper
+Tumbler
+Ajax
+Edevane
+Gastrell
+Slora
+Bread
+MacCaa
+Spinster
+Pussett
+Bythesea
+Gotobed
+'''
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -45,8 +174,24 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
+        for n in range(num_users):
+            self.add_user(
+                random.choice(personal_names) + ' ' + random.choice(surnames))
 
         # Create friendships
+        for n in range(avg_friendships * num_users // 2):
+            found_new = False
+            maybe_as = random.shuffle(range(self.last_id + 1))
+            for maybe_a in maybe_as:
+                maybe_bs = random.shuffle(range(self.last_id + 1))
+                for maybe_b in maybe_bs:
+                    if maybe_b not in self.friendships[maybe_a]
+                            and maybe_a != maybe_b:
+                        self.add_friendship(maybe_a, maybe_b)
+                        found_new = True
+                        break
+                if found_new:
+                    break
 
     def get_all_social_paths(self, user_id):
         """
