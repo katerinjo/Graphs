@@ -29,16 +29,6 @@ player = Player(world.starting_room)
 # Fill this out with directions to walk
 # traversal_path = ['n', 'n']
 traversal_path = []
-'''
-tree = {}
-
-def add_node(node_id):
-    tree[node_id] = {}
-
-def add_edge(from_n, to_n, direction):
-    tree[from_n][direction] = to_n
-    tree[to_n]['anti' + direction] = from_n # not sure backtracking needed
-'''
 
 def df_recursive(room):
     visited = set()
@@ -68,21 +58,6 @@ def df_recursive(room):
     return path
 
 traversal_path = df_recursive(world.starting_room)
-print(traversal_path)
-'''
-queue = deque()
-queue.append(player.current_room)
-visited = set()
-while len(queue) > 0:
-    room = queue.popleft()
-    if room not in visited:
-        add_node(room.id)
-        add_edge(previous_id, room.id, some_direction)
-        visited.add(room.id)
-        for next_vertex in self.get_neighbors(vertex):
-            new_path = path + [next_vertex]
-            queue.enqueue(new_path)
-'''
 
 # TRAVERSAL TEST
 visited_rooms = set()
